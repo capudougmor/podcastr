@@ -1,4 +1,5 @@
 import { useEffect } from "react"
+import Link from 'next/link'
 import Image from 'next/image'
 import api from '../services/api'
 import { format, parseISO } from 'date-fns'
@@ -65,7 +66,9 @@ export default function Home({ latestEpisodes, allEpisodes }) {
                 />
 
                 <div className={styles.episodeDetails}>
-                  <a href="">{episode.title} </a>
+                  <Link href={`/episodes/${episode.title}`}>
+                    <a >{episode.title} </a>
+                  </Link>
                   <p>{episode.members} </p>
                   <span>{episode.publishedAt} </span>
                   <span>{episode.durationAsString} </span>
@@ -85,12 +88,14 @@ export default function Home({ latestEpisodes, allEpisodes }) {
 
         <table cellSpacing={0}>
           <thead>
-            <th></th>
-            <th>Podcast</th>
-            <th>Integrantes</th>
-            <th>Data</th>
-            <th>Dutação</th>
-            <th></th>
+            <tr>
+              <th></th>
+              <th>Podcast</th>
+              <th>Integrantes</th>
+              <th>Data</th>
+              <th>Dutação</th>
+              <th></th>
+            </tr>
           </thead>
 
           <tbody>
@@ -107,14 +112,16 @@ export default function Home({ latestEpisodes, allEpisodes }) {
                     />
                   </td>
                   <td>
-                    <a href="">{episode.title} </a>
+                    <Link href={`/episodes/${episode.id}`}>
+                      <a >{episode.title} </a>
+                    </Link>
                   </td>
                   <td>{episode.members} </td>
                   <td>{episode.publishedAt} </td>
                   <td>{episode.durationAsString} </td>
                   <td>
                     <button>
-                      <img src="/play-green.svg" alt="Tocar episódio"/>
+                      <img src="/play-green.svg" alt="Tocar episódio" />
                     </button>
                   </td>
                 </tr>
@@ -144,7 +151,6 @@ export async function getStaticProps() {
       publishedAt: format(parseISO(episode.published_at), 'd MMMM yy', { locale: ptBR }),
       duration: episode.file.duration,
       durationAsString: convertDurationToString(episode.file.duration),
-      description: episode.description,
       url: episode.file.url,
 
     }
