@@ -9,6 +9,11 @@ import { convertDurationToString } from '../../utils/convertDurationToString'
 import styles from './episode.module.scss'
 
 export default function Episode({ episode }) {
+  const router = useRouter()
+
+  if(router.isFallback) {
+    return <p>Carregando...</p>
+  }
 
   return (
     <div className={styles.episode}>
@@ -45,10 +50,25 @@ export default function Episode({ episode }) {
 }
 
 export async function getStaticPaths() {
+
+  const { data } = await api.get('episodes', {
+    params: {
+      _limit: 2,
+      _sort: 'publiched_at',
+      _order: 'desc'
+    }
+  })
+
+  const paths = data.map(episode => {
+    return {
+      params: {
+        slug: episode.id
+      }
+    }
+  })
   return {
-    paths: [
-    ],
-    fallback: 'blocking'
+    paths,
+    fallback: 'blocking' // gera apenas os mais acessados
   }
 }
 
