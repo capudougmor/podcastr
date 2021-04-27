@@ -120,7 +120,7 @@ export default function Home({ latestEpisodes, allEpisodes }) {
                   <td>{episode.publishedAt} </td>
                   <td>{episode.durationAsString} </td>
                   <td>
-                    <button>
+                    <button type="button" onClick={() => play(episode)}>
                       <img src="/play-green.svg" alt="Tocar episódio" />
                     </button>
                   </td>
@@ -128,6 +128,7 @@ export default function Home({ latestEpisodes, allEpisodes }) {
               )
             })}
           </tbody>
+
         </table>
       </section>
     </div>
